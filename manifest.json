@@ -1,6 +1,6 @@
 {
-  "name": "GPT-3 Writer",
-  "description": "Write a blog post in the style of your favorite thinker anywhere!",
+  "name": "Soviet Joke Generator",
+  "description": "Generate a Soviet joke based on the content of a webpage",
   "version": "1.0",
   "manifest_version": 3,
   "icons": {
@@ -11,6 +11,7 @@
   },
   "action": {
     "default_popup": "index.html",
-    "default_title": "Generate blog post"
-  }
+    "default_title": "Generate a Soviet joke"
+  },
+  "permissions": ["contextMenus", "tabs", "storage"]
 }
