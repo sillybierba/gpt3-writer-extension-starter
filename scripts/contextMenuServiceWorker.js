@@ -41,7 +41,7 @@ The Englishman said, "Of course Adam was British. Look how he gave his only appl
 The Russian said, "Of course Adam only could be Russian. Who else, possessing nothing but a sole apple, and walking with a naked ass, still believed he was in a paradise?"
 ----
 
-Now, write me a Soviet joke that mimics the exmaples above as much as possible.  Try to refer to USSR concepts such as Stalin, Khrushchev, Brezhnev, Gorbachev, KGB, 5 year plan, etc, as much as possible too.
+Now, write me a Soviet joke that mimics the exmaples above as much as possible. Make sure to make fun of some USSR concepts such as Stalin, Khrushchev, Brezhnev, Gorbachev, KGB, 5 year plan, etc.
 
 Topic: 
 `;
@@ -56,6 +56,24 @@ const getKey = () => {
         })
     });
 };
+
+const sendMessage = (content) => {
+    chrome.tabs.query({ active: true, currentWindow: true}, (tabs) => {
+        const activeTab = tabs[0].id;
+
+        chrome.tabs.sendMessage(
+            activeTab,
+            { message: 'inject', content },
+            (response) => {
+                if (response.status === 'failed') {
+                    console.log('injection failed.');
+                }
+            }
+        );
+    });
+};
+
+
 
 const generate = async (prompt) => {
     const key = await getKey();
@@ -81,12 +99,16 @@ const generate = async (prompt) => {
 
 const generateCompletionAction = async (info) => {
     try {
+        sendMessage('generating...');
+
         const { selectionText } = info;
         const baseCompletion = await generate(`${basePromptPrefix}${selectionText}`);
 
-        console.log(baseCompletion.text);
+        sendMessage(baseCompletion.text);
     } catch (error) {
         console.log(error);
+
+        sendMessage(error.toString());
     }
 };
 
